@@ -1,0 +1,17 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<% if @user_or_book == "1" %>
+			<h2>Users search</h2>
+			<!--users一覧 -->
+			<%= render 'users/index', users: @users %>
+			<!--users一覧 -->
+			<% else %>
+			<h2>Books search</h2>
+			<!--books一覧 -->
+			<%= render 'books/index', books: @books %>
+			<!--books一覧 -->
+			<% end %>
+		</div>
+	</div>
+</div>

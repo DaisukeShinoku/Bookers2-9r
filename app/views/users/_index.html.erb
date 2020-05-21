@@ -1,0 +1,47 @@
+<!-- フォロー機能に関し、テーブル内でform_forは使わない方がいいみたいなのでlink_to使いたいけどフォロー外す際の変数がわからない(現状は問題なく動く) -->
+
+<!--users一覧 -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th>image</th>
+							<th>name</th>
+							<th colspan="4"></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<% users.each do |user| %>
+						<tr>
+							<td><%= attachment_image_tag(user, :profile_image, :fill, 50, 50, fallback: "no_image.jpg", size:'50x50') %></td>
+							<td><%= user.name%></td>
+							<td><%= "フォロー数: #{user.follows.count}" %></td>
+							<td><%= "フォロワー数: #{user.followers.count}" %></td>
+
+							<% if user.id == current_user.id %>
+								<td></td>
+							<% else %>
+								<% if current_user.follows?(user) %>
+									<td>
+										<!-- 渡す変数がわからない -->
+										<!-- <%= link_to 'フォロー外す', relationships_path('わからない'), method: :delete %> -->
+										<%= form_for(current_user.active_relationships.find_by(followed_id: user.id),html: { method: :delete }) do |f| %>
+											<%= f.submit "フォロー外す", class: "btn btn-link" %>
+										<% end %>
+										</td>
+								<% else %>
+									<td>
+										<!-- <%= link_to 'フォローする', relationships_path(followed_id:user.id), method: :POST %> -->
+										<%= form_for(current_user.active_relationships.build) do |f| %>
+											<div><%= hidden_field_tag :followed_id, user.id %></div>
+											<%= f.submit "フォローする", class: "btn btn-link" %>
+										<% end %>
+									</td>
+								<% end %>
+							<% end %>
+							<td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<!--users一覧 -->

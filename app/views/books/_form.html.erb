@@ -1,0 +1,6 @@
+	<%= form_for [@book, @book_comment] do |f| %>
+		<div class="flex">
+		<%= f.text_area :comment, class: "col-xs-9 book_comment" %>
+		<%= f.submit '送信' %>
+		</div>
+	<% end %>
